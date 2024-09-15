@@ -1,4 +1,3 @@
-/* style.css */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -14,29 +13,25 @@ body {
 #start-button, #reset-button {
     font-size: 16px;
     padding: 10px 20px;
-    margin-right: 10px; /* Ajustado para espaçamento entre botões */
+    margin-right: 10px;
     cursor: pointer;
-}
-
-#reset-button {
-    margin-right: 0; /* Remove o espaçamento à direita para o botão de reinício */
 }
 
 #timer {
     font-size: 24px;
     font-weight: bold;
-    margin-right: 10px; /* Ajustado para espaçamento entre elementos */
+    margin-right: 10px;
 }
 
 #show-lines-button {
-    width: 20px; /* 2 cm em pixels */
+    width: 20px;
     height: 20px;
     border-radius: 50%;
-    background-color: black; /* Cor do círculo */
+    background-color: black;
     border: none;
     position: absolute;
-    top: 10px; /* Ajuste conforme necessário */
-    right: 10px; /* Ajuste conforme necessário */
+    top: 10px;
+    right: 10px;
 }
 
 #quadrants {
@@ -57,36 +52,32 @@ body {
     align-items: center;
     padding: 10px;
     border: none;
-    /* Linha dos quadrantes invisível por padrão */
     border: 1px solid transparent;
 }
 
 .quadrant.show-lines {
-    border: 2px solid black; /* Linha dos quadrantes visível */
+    border: 2px solid black;
 }
 
 .number {
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 2px solid black;
-    border-radius: 5px;
+    border: none;
+    background: none;
     cursor: pointer;
     text-align: center;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, background-color 0.3s ease, border 0.3s ease;
 }
 
-.number.circled {
-    border: 3px solid red;
+/* Fundo verde e borda redonda ao clicar */
+.number.clicked {
+    background-color: green;
+    border: 2px solid black;
     border-radius: 50%;
 }
 
-/* Classe para números de cabeça para baixo */
-.upside-down {
-    transform: rotate(180deg);
-}
-
-/* Ocultar os títulos dos quadrantes */
-.quadrant::before {
-    content: none;
+/* Transformação para qualquer ângulo aleatório */
+.rotated {
+    transition: transform 0.3s ease;
 }
