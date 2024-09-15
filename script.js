@@ -1,9 +1,6 @@
-// script.js
-
 const quadrants = document.querySelectorAll('.quadrant');
 const quadrantIds = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'];
 
-// Mapear os números para cada quadrante conforme a solicitação
 const quadrantNumbers = {
     'a': [1, 10, 19, 28, 37, 46],
     'b': [2, 11, 20, 29, 38, 47],
@@ -25,36 +22,31 @@ let seconds = 0;
 let currentNumber = 1;
 let lastQuadrant = null;
 let isTimerRunning = false;
-let allNumbersCircled = new Set(); // Conjunto para rastrear números circulados
+let allNumbersCircled = new Set();
 
-// Função para distribuir os números entre os quadrantes
 function distributeNumbers() {
     quadrantIds.forEach(id => {
         const quadrant = document.getElementById(`quadrant-${id}`);
         const numbers = quadrantNumbers[id];
         
-        // Embaralha os números dentro do quadrante
         const shuffledNumbers = shuffle(numbers);
 
-        quadrant.innerHTML = ''; // Limpa o conteúdo atual do quadrante
+        quadrant.innerHTML = ''; 
 
         shuffledNumbers.forEach(number => {
             const button = document.createElement('button');
             button.textContent = number;
             button.classList.add('number');
 
-            // Define um tamanho aleatório para os números
-            const size = Math.floor(Math.random() * 40) + 30; // Tamanho entre 30px e 70px
+            const size = Math.floor(Math.random() * 40) + 30;
             button.style.width = `${size}px`;
             button.style.height = `${size}px`;
             button.style.fontSize = `${size / 2}px`;
 
-            // Aplica a classe "upside-down" aleatoriamente para alguns números
-            if (Math.random() < 0.2) {  // Aproximadamente 20% dos números de cabeça para baixo
-                button.classList.add('upside-down');
-            }
+            // Adiciona rotação aleatória em qualquer direção dos 360 graus
+            const rotationDegree = Math.floor(Math.random() * 360);
+            button.style.transform = `rotate(${rotationDegree}deg)`;
 
-            // Evento de clique para controlar a sequência correta e o cronômetro
             button.addEventListener('click', function() {
                 const numberValue = parseInt(this.textContent);
 
@@ -65,16 +57,13 @@ function distributeNumbers() {
                 if (numberValue === currentNumber) {
                     const currentQuadrantElem = this.parentNode;
 
-                    // Garante que o número correto está em um quadrante diferente do anterior
                     if (lastQuadrant !== currentQuadrantElem || lastQuadrant === null) {
-                        this.classList.add('circled');
+                        this.classList.add('clicked');
                         lastQuadrant = currentQuadrantElem;
                         currentNumber++;
 
-                        // Adiciona o número ao conjunto de números circulados
                         allNumbersCircled.add(numberValue);
 
-                        // Verifica se todos os números foram circulados
                         if (allNumbersCircled.size === 54) {
                             stopTimer();
                         }
@@ -87,7 +76,6 @@ function distributeNumbers() {
     });
 }
 
-// Função para embaralhar os números aleatoriamente
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -96,7 +84,6 @@ function shuffle(array) {
     return array;
 }
 
-// Função para iniciar o cronômetro
 function startTimer() {
     if (!isTimerRunning) {
         isTimerRunning = true;
@@ -109,7 +96,6 @@ function startTimer() {
     }
 }
 
-// Função para parar o cronômetro
 function stopTimer() {
     if (isTimerRunning) {
         clearInterval(timerInterval);
@@ -117,29 +103,23 @@ function stopTimer() {
     }
 }
 
-// Função para reiniciar o jogo
 function resetGame() {
-    // Parar o cronômetro
     stopTimer();
-    // Zerar o cronômetro e o contador de números
     seconds = 0;
     timerDisplay.textContent = '00:00';
     currentNumber = 1;
     lastQuadrant = null;
     isTimerRunning = false;
-    allNumbersCircled.clear(); // Limpa o conjunto de números circulados
-    // Re-distribuir os números
+    allNumbersCircled.clear();
     distributeNumbers();
 }
 
-// Função para mostrar/ocultar as linhas dos quadrantes
 function toggleLines() {
     quadrants.forEach(quadrant => {
         quadrant.classList.toggle('show-lines');
     });
 }
 
-// Adiciona eventos aos botões
 startButton.addEventListener('click', () => {
     if (currentNumber === 1 && !isTimerRunning) {
         startTimer();
@@ -150,5 +130,4 @@ resetButton.addEventListener('click', resetGame);
 
 showLinesButton.addEventListener('click', toggleLines);
 
-// Distribui os números conforme o esquema solicitado
 distributeNumbers();
